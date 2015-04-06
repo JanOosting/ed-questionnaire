@@ -1,9 +1,7 @@
 from django.db import models
 from django.core.urlresolvers import reverse
-from transmeta import TransMeta
 
 class Page(models.Model):
-    __metaclass__ = TransMeta
 
     slug = models.SlugField(unique=True, primary_key=True)
     title = models.CharField(u"Title", max_length=256)
@@ -15,7 +13,3 @@ class Page(models.Model):
 
     def get_absolute_url(self):
         return reverse('questionnaire.page.views.page', kwargs={'page_to_render':self.slug})
-        
-
-    class Meta:
-        translate = ('title','body',)

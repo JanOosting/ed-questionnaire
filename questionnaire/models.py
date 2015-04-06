@@ -1,5 +1,4 @@
 from django.db import models
-from transmeta import TransMeta
 from django.utils.translation import ugettext_lazy as _
 from questionnaire import QuestionChoices
 import re
@@ -91,8 +90,6 @@ class Questionnaire(models.Model):
 
 
 class QuestionSet(models.Model):
-    __metaclass__ = TransMeta
-
     "Which questions to display on a question page"
     questionnaire = models.ForeignKey(Questionnaire)
     sortid = models.IntegerField() # used to decide which order to display in
@@ -148,8 +145,6 @@ class QuestionSet(models.Model):
     def __unicode__(self):
         return u'%s: %s' % (self.questionnaire.name, self.heading)
 
-    class Meta:
-        translate = ('text',)
 
 
 class RunInfo(models.Model):
@@ -267,7 +262,6 @@ class RunInfoHistory(models.Model):
 
 
 class Question(models.Model):
-    __metaclass__ = TransMeta
 
     questionset = models.ForeignKey(QuestionSet)
     number = models.CharField(max_length=8, help_text=
@@ -374,12 +368,8 @@ class Question(models.Model):
 #         cmpnum = cmp(anum, bnum)
 #         return cmpnum or cmp(astr, bstr)
 
-    class Meta:
-        translate = ('text', 'extra', 'footer')
-
 
 class Choice(models.Model):
-    __metaclass__ = TransMeta
 
     question = models.ForeignKey(Question)
     sortid = models.IntegerField()
@@ -389,9 +379,6 @@ class Choice(models.Model):
 
     def __unicode__(self):
         return u'(%s) %d. %s' % (self.question.number, self.sortid, self.text)
-
-    class Meta:
-        translate = ('text',)
 
 
 class Answer(models.Model):
