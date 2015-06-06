@@ -461,12 +461,10 @@ def questionnaire(request, runcode=None, qs=None):
             errors[question.number] = e
         except Exception:
             logging.exception("Unexpected Exception")
-            transaction.rollback()
             raise
 
     if len(errors) > 0:
         res = show_questionnaire(request, runinfo, errors=errors)
-        transaction.rollback()
         return res
 
     questionset_done.send(sender=None, runinfo=runinfo, questionset=questionset)
